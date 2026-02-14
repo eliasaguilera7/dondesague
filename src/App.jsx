@@ -79,6 +79,16 @@ const AccordionItem = ({ question, answer }) => {
 export default function App() {
   const [scrolled, setScrolled] = useState(false);
 
+  // Detectar entorno para rutas de imágenes (GitHub Pages usa subdirectorio)
+  const isGitHubPages = window.location.hostname.includes('github.io');
+  const basePath = isGitHubPages ? '/dondesague' : '';
+  
+  const getImagePath = (path) => {
+    // Asegurar que el path no empiece con / si se concatena
+    const cleanPath = path.startsWith('/') ? path.slice(1) : path;
+    return `${basePath}/${cleanPath}`;
+  };
+
   useEffect(() => {
     // Actualizar título de la página para SEO y pestaña del navegador
     document.title = "Desagote de Pozo Ciego en Asunción 24/7 | Don Desagüe";
@@ -104,9 +114,9 @@ export default function App() {
         <div className="container mx-auto px-6 flex justify-between items-center">
           <div className="flex items-center gap-2">
             <img 
-              src="images/logo.png" 
+              src={getImagePath('images/logo.png')}
               alt="Don Desagüe Logo" 
-              className="h-18 w-auto"
+              className="h-16 w-auto"
             />
            
           </div>
@@ -136,7 +146,7 @@ export default function App() {
         <div 
           className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
           style={{ 
-            backgroundImage: "url('images/herodesague.jpeg')",
+            backgroundImage: `url('${getImagePath('images/herodesague.jpeg')}')`,
           }}
         >
           <div className="absolute inset-0 bg-gradient-to-r from-blue-950/90 via-blue-900/60 to-transparent" />
@@ -332,7 +342,7 @@ export default function App() {
             {['camion1', 'camion2', 'camion3', 'camion4'].map((img, idx) => (
               <div key={idx} className="group relative overflow-hidden rounded-2xl h-64 md:h-80 shadow-lg cursor-pointer">
                 <img 
-                  src={`images/${img}.jpeg`} 
+                  src={getImagePath(`images/${img}.jpeg`)}
                   alt={`Camión Don Desagüe ${idx + 1}`} 
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   onError={(e) => {e.target.src = 'https://placehold.co/600x400?text=Camion+Don+Desague'}} // Fallback si no existe la imagen
@@ -379,9 +389,9 @@ export default function App() {
             <div className="col-span-1 md:col-span-2">
               <div className="flex items-center gap-2 mb-8">
                 <img 
-                  src="images/logo.png" 
+                  src={getImagePath('images/logo.png')}
                   alt="Don Desagüe Logo" 
-                  className="h-25 w-auto"
+                  className="h-24 w-auto"
                 />
              
               </div>
